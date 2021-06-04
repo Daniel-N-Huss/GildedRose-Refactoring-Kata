@@ -31,7 +31,7 @@ RSpec.describe GildedRose do
         expect { subject }.to change { backstage.sell_in }.by(-1)
       end
 
-      context 'when sell_in is less than 10' do
+      context 'when sell_in is 10 or less' do
         let(:sell_in) { 9 }
 
         it 'increases quality by 2' do
@@ -39,7 +39,7 @@ RSpec.describe GildedRose do
         end
       end
 
-      context 'when sell_in is less than 5' do
+      context 'when sell_in is 5 or less' do
         let(:sell_in) { 3 }
 
         it 'increases quality by 3' do
