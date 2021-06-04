@@ -8,12 +8,12 @@ class GildedRose
     @items.each do |item|
       if item.name == "Sulfuras, Hand of Ragnaros"
         sulfuras
-      elsif item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert"
-        default_item(item)
+      elsif item.name == "Aged Brie"
+        brie(item)
       elsif item.name == "Backstage passes to a TAFKAL80ETC concert"
         backstage(item)
       else
-        brie(item)
+        default_item(item)
       end
     end
   end
