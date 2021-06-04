@@ -33,15 +33,15 @@ class GildedRose
     if item.sell_in < 0
       item.quality = 0
     else
-      item.quality += 1 if item.quality < 50
-      item.quality += 1 if item.sell_in < 11 && item.quality < 50
-      item.quality += 1 if item.sell_in < 6 && item.quality < 50
+      item.increase_quality
+      item.increase_quality if item.sell_in < 11
+      item.increase_quality if item.sell_in < 6
     end
   end
 
   def brie(item)
     if item.quality < 50
-      item.quality += 1
+      item.increase_quality
       item.sell_in -= 1
     end
   end
@@ -62,5 +62,9 @@ class Item
 
   def decrease_quality
     @quality -= 1 if @quality > 0
+  end
+
+  def increase_quality
+    @quality += 1 if @quality < 50
   end
 end
