@@ -8,24 +8,21 @@ class GildedRose
     @items.each do |item|
       if item.name == "Sulfuras, Hand of Ragnaros"
         sulfuras
+      elsif item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert"
+        default_item(item)
       else
-        if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-          if item.quality > 0
-            item.quality = item.quality - 1
-          end
-        else
-          if item.quality < 50
-            item.quality = item.quality + 1
-            if item.name == "Backstage passes to a TAFKAL80ETC concert"
-              if item.sell_in < 11
-                if item.quality < 50
-                  item.quality = item.quality + 1
-                end
+
+        if item.quality < 50
+          item.quality = item.quality + 1
+          if item.name == "Backstage passes to a TAFKAL80ETC concert"
+            if item.sell_in < 11
+              if item.quality < 50
+                item.quality = item.quality + 1
               end
-              if item.sell_in < 6
-                if item.quality < 50
-                  item.quality = item.quality + 1
-                end
+            end
+            if item.sell_in < 6
+              if item.quality < 50
+                item.quality = item.quality + 1
               end
             end
           end
@@ -35,13 +32,7 @@ class GildedRose
 
         if item.sell_in < 0
           if item.name != "Aged Brie"
-            if item.name != "Backstage passes to a TAFKAL80ETC concert"
-              if item.quality > 0
-                item.quality = item.quality - 1
-              end
-            else
-              item.quality = item.quality - item.quality
-            end
+            item.quality = item.quality - item.quality
           else
             if item.quality < 50
               item.quality = item.quality + 1
@@ -49,12 +40,20 @@ class GildedRose
           end
         end
       end
-
     end
   end
 
   def sulfuras
   end
+
+  def default_item(item)
+    if item.quality > 0
+      item.quality -= 1
+      item.sell_in -= 1
+      item.quality -= 1 if item.sell_in < 0
+    end
+  end
+
 end
 
 class Item
