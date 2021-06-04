@@ -23,12 +23,12 @@ class GildedRose
 
   def default_item(item)
     item.decrease_quality
-    item.sell_in -= 1
+    item.decrease_sell_in
     item.decrease_quality if item.sell_in < 0
   end
 
   def backstage(item)
-    item.sell_in -= 1
+    item.decrease_sell_in
 
     if item.sell_in < 0
       item.quality = 0
@@ -42,7 +42,7 @@ class GildedRose
   def brie(item)
     if item.quality < 50
       item.increase_quality
-      item.sell_in -= 1
+      item.decrease_sell_in
     end
   end
 end
@@ -58,6 +58,10 @@ class Item
 
   def to_s()
     "#{@name}, #{@sell_in}, #{@quality}"
+  end
+
+  def decrease_sell_in
+    @sell_in -= 1
   end
 
   def decrease_quality
