@@ -4,50 +4,24 @@ require "rspec"
 RSpec.describe GildedRose do
 
   describe "#update_quality" do
-    let(:sulfuras) { Item.new("Sulfuras, Hand of Ragnaros", 0, 80) }
-    let(:backstage) { "Backstage passes to a TAFKAL80ETC concert" }
-    let(:brie) { "Aged Brie" }
-
-    let(:items) { [Item.new("foo", 0, 0)] }
-
     subject { described_class.new(items).update_quality }
 
-    it "does not change the name" do
-      subject
-      expect(items[0].name).to eq "foo"
-    end
+    context 'item is Sulfuras' do
+      let(:sell_in) { 10 }
+      let(:quality) { 80 }
+      let(:sulfuras) { Item.new("Sulfuras, Hand of Ragnaros", sell_in, quality) }
+      let(:items) { [sulfuras] }
 
-    describe 'sell_in' do
-      context 'item is Sulfuras' do
-        let(:items) { [sulfuras] }
-
-        it 'does not change sell_in' do
-          subject
-          expect(items[0].sell_in).to eq 0
-        end
+      it 'does not change sell_in' do
+        expect { subject }.not_to change { sulfuras.sell_in }
       end
 
-      context 'item is not Sulfuras' do
-        let(:sell_in) { 10 }
-        let(:items) { [Item.new("NotSulfuras", sell_in, 0)] }
-
-        it 'decrements sell_in by 1' do
-          subject
-          expect(items[0].sell_in).to eq(sell_in - 1)
-        end
+      it 'does not change quality' do
+        expect { subject }.not_to change { sulfuras.quality }
       end
     end
 
-    describe 'quality' do
-      context 'quality is 50 or above' do
-        let(:item) { Item.new(brie, 5, 50) }
-        let(:items) { [item] }
-
-        it 'does not increase quality' do
-          subject
-          expect(item.quality).to eq 50
-        end
-      end
-    end
+    let(:backstage) { Item.new("Backstage passes to a TAFKAL80ETC concert", sell_in, quality) }
+    let(:brie) { Item.new("Aged Brie", sell_in, quality) }
   end
 end
