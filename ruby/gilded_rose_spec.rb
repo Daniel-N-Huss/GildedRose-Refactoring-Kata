@@ -98,6 +98,41 @@ RSpec.describe GildedRose do
     end
 
     context 'item is Conjured Mana Cake' do
+      let(:item) { Item.new("Conjured Mana Cake", sell_in, quality) }
+      let(:sell_in) { 10 }
+      let(:quality) { 25 }
+
+      it 'decrements sell_in' do
+        expect { subject }.to change { item.sell_in }.by(-1)
+      end
+
+      context 'when quality is above 0' do
+        let(:quality) { 25 }
+
+        context 'when sell_in is positive' do
+          let(:sell_in) { 10 }
+
+          it 'decrements quality by 2' do
+            expect { subject }.to change { item.quality }.by(-2)
+          end
+        end
+
+        context 'when sell_in is negative' do
+          let(:sell_in) { -1 }
+
+          it 'decrements quality by 2' do
+            expect { subject }.to change { item.quality }.by(-4)
+          end
+        end
+      end
+
+      context 'when quality is at 0' do
+        let(:quality) { 0 }
+
+        it 'does not decrease quality' do
+          expect { subject }.not_to change { item.quality }
+        end
+      end
     end
 
     context 'any other items' do
