@@ -12,6 +12,8 @@ class GildedRose
         brie(item)
       elsif item.name == "Backstage passes to a TAFKAL80ETC concert"
         backstage(item)
+      elsif item.name == "Conjured Mana Cake"
+        conjured(item)
       else
         default_item(item)
       end
@@ -42,6 +44,16 @@ class GildedRose
   def brie(item)
     item.increase_quality
     item.decrease_sell_in
+  end
+
+  def conjured(item)
+    item.decrease_quality
+    item.decrease_quality
+    item.decrease_sell_in
+    if item.sell_in < 0
+      item.decrease_quality
+      item.decrease_quality
+    end
   end
 end
 
