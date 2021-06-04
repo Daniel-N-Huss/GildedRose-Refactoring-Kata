@@ -40,10 +40,8 @@ class GildedRose
   end
 
   def brie(item)
-    if item.quality < 50
-      item.increase_quality
-      item.decrease_sell_in
-    end
+    item.increase_quality
+    item.decrease_sell_in
   end
 end
 
