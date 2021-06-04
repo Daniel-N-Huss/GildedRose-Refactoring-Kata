@@ -104,6 +104,42 @@ RSpec.describe GildedRose do
     end
 
     context 'any other items' do
+      let(:staff) { Item.new("Initiates Staff", sell_in, quality) }
+      let(:sell_in) { 10 }
+      let(:quality) { 25 }
+      let(:items) { [staff] }
+
+      it 'decrements sell_in' do
+        expect { subject }.to change { staff.sell_in }.by(-1)
+      end
+
+      context 'when quality is above 0' do
+        let(:quality) { 25 }
+
+        context 'when sell_in is positive' do
+          let(:sell_in) { 10 }
+
+          it 'decrements quality by 1' do
+            expect { subject }.to change { staff.quality }.by(-1)
+          end
+        end
+
+        context 'when sell_in is negative' do
+          let(:sell_in) { -1 }
+
+          it 'decrements quality by 2' do
+            expect { subject }.to change { staff.quality }.by(-2)
+          end
+        end
+      end
+
+      context 'when quality is at 0' do
+        let(:quality) { 0 }
+
+        it 'does not decrease quality' do
+          expect { subject }.not_to change { staff.quality }
+        end
+      end
     end
 
   end
