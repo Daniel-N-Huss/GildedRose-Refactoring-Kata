@@ -26,6 +26,7 @@ RSpec.describe GildedRose do
           expect(items[0].sell_in).to eq 0
         end
       end
+
       context 'item is not Sulfuras' do
         let(:sell_in) { 10 }
         let(:items) { [Item.new("NotSulfuras", sell_in, 0)] }
@@ -38,13 +39,14 @@ RSpec.describe GildedRose do
     end
 
     describe 'quality' do
-      describe 'quality is 50 or above' do
-        let(:items) { [sulfuras] }
+      context 'quality is 50 or above' do
+        let(:item) { Item.new(brie, 5, 50) }
+        let(:items) { [item] }
 
         it 'does not increase quality' do
-
+          subject
+          expect(item.quality).to eq 50
         end
-
       end
     end
   end
