@@ -21,7 +21,23 @@ RSpec.describe GildedRose do
       end
     end
 
-    let(:backstage) { Item.new("Backstage passes to a TAFKAL80ETC concert", sell_in, quality) }
-    let(:brie) { Item.new("Aged Brie", sell_in, quality) }
+    context 'item is Backstage passes' do
+      let(:backstage) { Item.new("Backstage passes to a TAFKAL80ETC concert", sell_in, quality) }
+      let(:items) { [backstage] }
+    end
+
+    context 'item is Brie' do
+      let(:brie) { Item.new("Aged Brie", sell_in, quality) }
+      let(:items) { [brie] }
+    end
+
+    context 'item is Conjured Mana Cake' do
+    end
+
+    context 'any other items' do
+    end
+
+
+
   end
 end
