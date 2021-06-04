@@ -4,7 +4,7 @@ require "rspec"
 RSpec.describe GildedRose do
 
   describe "#update_quality" do
-    let(:sulfuras) { "Sulfuras, Hand of Ragnaros" }
+    let(:sulfuras) { Item.new("Sulfuras, Hand of Ragnaros", 0, 80) }
     let(:backstage) { "Backstage passes to a TAFKAL80ETC concert" }
     let(:brie) { "Aged Brie" }
 
@@ -19,12 +19,11 @@ RSpec.describe GildedRose do
 
     describe 'sell_in' do
       context 'item is Sulfuras' do
-        let(:sell_in) { 10 }
-        let(:items) { [Item.new(sulfuras, sell_in, 0)] }
+        let(:items) { [sulfuras] }
 
         it 'does not change sell_in' do
           subject
-          expect(items[0].sell_in).to eq sell_in
+          expect(items[0].sell_in).to eq 0
         end
       end
       context 'item is not Sulfuras' do
@@ -35,6 +34,17 @@ RSpec.describe GildedRose do
           subject
           expect(items[0].sell_in).to eq(sell_in - 1)
         end
+      end
+    end
+
+    describe 'quality' do
+      describe 'quality is 50 or above' do
+        let(:items) { [sulfuras] }
+
+        it 'does not increase quality' do
+
+        end
+
       end
     end
   end
