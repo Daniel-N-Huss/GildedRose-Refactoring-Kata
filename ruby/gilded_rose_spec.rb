@@ -28,7 +28,30 @@ RSpec.describe GildedRose do
 
     context 'item is Brie' do
       let(:brie) { Item.new("Aged Brie", sell_in, quality) }
+      let(:sell_in) { 10 }
+      let(:quality) { 25 }
       let(:items) { [brie] }
+
+      it 'decrements sell_in' do
+        expect { subject }.to change { brie.sell_in }.by(-1)
+      end
+
+      context 'when quality is below 50' do
+        let(:quality) { 25 }
+
+        it 'increases quality' do
+          expect { subject }.to change { brie.quality }.by(1)
+        end
+      end
+
+      context 'when quality is at 50' do
+        let(:quality) { 50 }
+
+        it 'does not increase quality' do
+          expect { subject }.not_to change { brie.quality }
+        end
+      end
+
     end
 
     context 'item is Conjured Mana Cake' do
@@ -36,8 +59,6 @@ RSpec.describe GildedRose do
 
     context 'any other items' do
     end
-
-
 
   end
 end
