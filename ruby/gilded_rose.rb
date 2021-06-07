@@ -4,7 +4,7 @@ class GildedRose
     @items = items
   end
 
-  def update_quality()
+  def update_quality
     @items.each do |item|
       if item.name == "Sulfuras, Hand of Ragnaros"
         sulfuras
@@ -47,12 +47,10 @@ class GildedRose
   end
 
   def conjured(item)
-    item.decrease_quality
-    item.decrease_quality
+    2.times { item.decrease_quality }
     item.decrease_sell_in
     if item.sell_in < 0
-      item.decrease_quality
-      item.decrease_quality
+      2.times { item.decrease_quality }
     end
   end
 end
@@ -66,7 +64,7 @@ class Item
     @quality = quality
   end
 
-  def to_s()
+  def to_s
     "#{@name}, #{@sell_in}, #{@quality}"
   end
 
