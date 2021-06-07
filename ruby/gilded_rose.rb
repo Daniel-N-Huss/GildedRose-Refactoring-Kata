@@ -6,49 +6,53 @@ class GildedRose
 
   def update_quality()
     @items.each do |item|
-      if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
-        if item.quality > 0
-          if item.name != "Sulfuras, Hand of Ragnaros"
-            item.quality = item.quality - 1
-          end
-        end
+      if item.name == "Sulfuras, Hand of Ragnaros"
+        sulfuras
+      elsif item.name == "Aged Brie"
+        brie(item)
+      elsif item.name == "Backstage passes to a TAFKAL80ETC concert"
+        backstage(item)
+      elsif item.name == "Conjured Mana Cake"
+        conjured(item)
       else
-        if item.quality < 50
-          item.quality = item.quality + 1
-          if item.name == "Backstage passes to a TAFKAL80ETC concert"
-            if item.sell_in < 11
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-            if item.sell_in < 6
-              if item.quality < 50
-                item.quality = item.quality + 1
-              end
-            end
-          end
-        end
+        default_item(item)
       end
-      if item.name != "Sulfuras, Hand of Ragnaros"
-        item.sell_in = item.sell_in - 1
-      end
-      if item.sell_in < 0
-        if item.name != "Aged Brie"
-          if item.name != "Backstage passes to a TAFKAL80ETC concert"
-            if item.quality > 0
-              if item.name != "Sulfuras, Hand of Ragnaros"
-                item.quality = item.quality - 1
-              end
-            end
-          else
-            item.quality = item.quality - item.quality
-          end
-        else
-          if item.quality < 50
-            item.quality = item.quality + 1
-          end
-        end
-      end
+    end
+  end
+
+  def sulfuras
+  end
+
+  def default_item(item)
+    item.decrease_quality
+    item.decrease_sell_in
+    item.decrease_quality if item.sell_in < 0
+  end
+
+  def backstage(item)
+    item.decrease_sell_in
+
+    if item.sell_in < 0
+      item.quality = 0
+    else
+      item.increase_quality
+      item.increase_quality if item.sell_in < 11
+      item.increase_quality if item.sell_in < 6
+    end
+  end
+
+  def brie(item)
+    item.increase_quality
+    item.decrease_sell_in
+  end
+
+  def conjured(item)
+    item.decrease_quality
+    item.decrease_quality
+    item.decrease_sell_in
+    if item.sell_in < 0
+      item.decrease_quality
+      item.decrease_quality
     end
   end
 end
@@ -64,5 +68,17 @@ class Item
 
   def to_s()
     "#{@name}, #{@sell_in}, #{@quality}"
+  end
+
+  def decrease_sell_in
+    @sell_in -= 1
+  end
+
+  def decrease_quality
+    @quality -= 1 if @quality > 0
+  end
+
+  def increase_quality
+    @quality += 1 if @quality < 50
   end
 end
